@@ -1,0 +1,17 @@
+.loginContainer {
+  background-image: url('https://i.imgur.com/EyA2hf0.png');
+  background-color: transparent;
+  /* Full height */
+  height: 100vh;
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+}
+
+.transparent-card {
+  background-color: transparent;
+}
