@@ -9,19 +9,8 @@ import MessageContainer from './Messages/MessageContainer';
 
 const Dashboard = () => {
   return (
-    <div className="container">
-      <div className="sidebar">
-        hello world
-        <Link to="/messages">
-          <button>Messages</button>
-        </Link>
-        <Link to="/connect">
-          <button>CONNECT</button>
-        </Link>
-        <Link to="/userprofile">
-          <button>My Profile</button>
-        </Link>
-      </div>
+    <div>
+      <Sidebar />
       <div className="container">
         <Switch>
           <Route path="/messages" render={(props) => <MessageContainer {...props} />} />

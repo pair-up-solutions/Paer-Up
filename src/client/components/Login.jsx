@@ -16,9 +16,9 @@ const Login = () => {
           <div className="card-body">
             <h5 className="card-title">Login/Signup With GitHub</h5>
             <p className="card-text">Login to find a paer programming partner at your level!</p>
-            <a href="/api/auth" className="btn btn-primary">
-              Github Login
-            </a>
+            <Link to="/api/auth">
+              <button className="btn btn-primary">Github Login</button>
+            </Link>
           </div>
         </div>
       </div>
