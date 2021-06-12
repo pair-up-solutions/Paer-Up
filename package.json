@@ -1,0 +1,64 @@
+{
+  "name": "paer-up",
+  "version": "1.0.0",
+  "description": "A solution to finding pair programming partners",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --mode production",
+    "start": "node src/server/server.js",
+    "dev": "concurrently \"webpack serve --open --mode development\" \"nodemon ./src/server/server.js\"",
+    "clean": "rm -rf ./dist && mkdir ./dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pair-up-solutions/Paer-Up.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pair-up-solutions/Paer-Up/issues"
+  },
+  "homepage": "https://github.com/pair-up-solutions/Paer-Up#readme",
+  "devDependencies": {
+    "@babel/core": "^7.14.3",
+    "@babel/preset-env": "^7.14.4",
+    "@babel/preset-react": "^7.13.13",
+    "babel": "^6.23.0",
+    "babel-loader": "^8.2.2",
+    "concurrently": "^6.2.0",
+    "css-loader": "^5.2.6",
+    "eslint": "^7.28.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-prettier": "^3.4.0",
+    "eslint-plugin-react": "^7.24.0",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "file-loader": "^6.2.0",
+    "html-webpack-plugin": "^5.3.1",
+    "nodemon": "^2.0.7",
+    "prettier": "^2.3.1",
+    "sass-loader": "^12.0.0",
+    "style-loader": "^2.0.0",
+    "webpack": "^5.38.1",
+    "webpack-cli": "^4.7.2",
+    "webpack-dev-server": "^3.11.2"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "lodash": "^4.17.21",
+    "mongoose": "^5.12.13",
+    "node-fetch": "^2.6.1",
+    "path": "^0.12.7",
+    "react": "^17.0.2",
+    "react-bulma-components": "^4.0.6",
+    "react-dom": "^17.0.2",
+    "react-router-dom": "^5.2.0",
+    "sass": "^1.34.1"
+  }
+}
