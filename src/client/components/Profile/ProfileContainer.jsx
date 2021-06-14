@@ -42,15 +42,17 @@ const ProfileContainer = (props) => {
   // const [userBio, setUserBio] = useState('');
   // this will be from user input in a input[]
 
-  console.log(props);
-  // const userData = props.allUsersData.filter((x) => x.username === props.renderedPageUserName);
-  // console.log(userData);
-  // console.log(<AccountDescriptionCard />);
+  console.log('props', props);
+  const userData = props.allUsersData.filter((x) => x.username === props.renderedPageUserName);
+  console.log('userdata', userData);
 
-  return <div></div>;
-  // <AccountDescriptionCard userData={userData} />
-  // <PreviousProjectCard userData={userData} />
-  // <ProgrammingLanguageCard userData={userData} />
+  return (
+    <div>
+      <AccountDescriptionCard userData={userData} />
+      <PreviousProjectCard userData={userData} />
+      <ProgrammingLanguageCard userData={userData} />
+    </div>
+  );
 };
 
 export default ProfileContainer;

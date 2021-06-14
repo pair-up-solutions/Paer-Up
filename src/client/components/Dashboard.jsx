@@ -14,9 +14,8 @@ const Dashboard = () => {
   const [renderedPageUserName, setRenderedPageUserName] = useState(null); // the username of the page we wanna see
 
   useEffect(() => {
-    console.log(document.cookie);
-    // console.log(document.cookie.replace(/(?:(?:^|.*;\s*)token\s*\=\s*([^;]*).*$)|^.*$/, '$1'));
-    fetch('/api/userprofile/')
+    const token = document.cookie.replace(/(?:(?:^|.*;\s*)token\s*\=\s*([^;]*).*$)|^.*$/, '$1');
+    fetch(`/api/userprofile/${token}`)
       .then((data) => data.json())
       .then((items) => {
         setCurrentUserName(items.username);
@@ -27,11 +26,15 @@ const Dashboard = () => {
 
     fetch('/api/connect')
       .then((data) => data.json())
-      .then((items) => setAllUsersData(items))
-      .then((items) => console.log('connect', items))
+      .then((items) => {
+        setAllUsersData((allUsersData) => ({ ...allUsersData, items }));
+        console.log('connect', items);
+      })
       .catch((err) => console.log(err));
   }, []);
 
+  useEffect(() => {});
+  console.log('currentUserName', currentUserName);
   return (
     <div>
       <Sidebar currentUser={currentUserName} resetUser={setRenderedPageUserName} />
