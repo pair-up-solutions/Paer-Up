@@ -30,11 +30,6 @@ apiController.login = async (req, res, next) => {
       headers: { Authorization: tokenVar },
     });
 
-    let data = await fetch(`https://api.github.com/user`, {
-      method: 'GET',
-      headers: { Authorization: tokenVar },
-    });
-
     data = await data.json();
 
     // console.log(data)
