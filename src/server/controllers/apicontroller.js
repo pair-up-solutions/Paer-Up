@@ -1,14 +1,16 @@
 const { json, response, request } = require('express');
 const fs = require('fs');
 const { resolve } = require('path');
-const path = require('path
-cos r
- <div
-cons <i1>H/llo Wsld</h1>
-nst </siv>require('console');
-);
+const path = require('path');
+const { useParams } = require('react-router');
 
-cotroller log in
+const fetch = require('node-fetch');
+
+const db = require('../models/dbmodels');
+
+const apiController = {};
+
+// OAuth log in
 apiController.login = async (req, res, next) => {
   //   console.log("params", req.params.token);
 
@@ -22,6 +24,11 @@ apiController.login = async (req, res, next) => {
     //   method: "GET",
     //   headers: {"Authorization": `token${token}`}
     // }
+
+    let data = await fetch(`https://api.github.com/user`, {
+      method: 'GET',
+      headers: { Authorization: tokenVar },
+    });
 
     let data = await fetch(`https://api.github.com/user`, {
       method: 'GET',
@@ -87,61 +94,7 @@ apiController.login = async (req, res, next) => {
 };
 
 // single user data
-apiController.reqUserData = async (req, res, next) => {
-  try {
-    const token = req.params.token;
-    // console.log("token",token)
-
-    const tokenVar = `token ${token}`;
-    // console.log("hi", tokenVar)
-    // const options = {
-    //   method: "GET",
-    //   headers: {"Authorization": `token${token}`}
-    // }
-
-    let data = await fetch(`https://api.github.com/user`, {
-      method: 'GET',
-      headers: { Authorization: tokenVar },
-    });
-
-    data = await data.json();
-
-    let username = data.login;
-
-    // fetch request to grab repos
-    let repo = await fetch(data.repos_url);
-    repo = await repo.json();
-    // data.repos_url
-    const realRepo = [];
-    for (let i = 0; i < repo.length; i++) {
-      let innerObj = {};
-      innerObj.name = repo[i].name;
-      innerObj.description = repo[i].description;
-      innerObj.url = repo[i].html_url;
-      realRepo.push(innerObj);
-    }
-
-    let followers = await fetch(data.followers_url);
-    followers = await followers.json();
-
-    let followerCount = followers.length;
-
-    res.locals.userData = {
-      profilePicURL: data.avatar_url,
-      username: data.login,
-      bio: data.bio,
-      arrOfRepo: realRepo,
-      followers: followerCount,
-      token: token,
-    };
-
-    // post to users table in db
-    return next();
-  } catch (err) {
-    console.log(err);
-    return next(err);
-  }
-};
+apiController.reqUserData = (req, res, next) => {};
 
 // all users data
 apiController.reqAllUsersData = async (req, res, next) => {
@@ -213,30 +166,17 @@ apiController.reqAllUsersData = async (req, res, next) => {
 };
 
 // sending invitation
-apiController.inviteUser = async (req, res, next) => {
+apiController.inviteUser = (req, res, next) => {
   try {
-    // console.log("req.body =>", req.params)
-    // console.log("req.body =>", req.body)
+    // req.params= {logedin: , requested: }
+    console.log('req.params =>', req.params);
+    onsole.log('req.body =>', req.body);
 
-    //query db - macth id for send and reciver
-    // SELECT token FROM users WHERE username = 'realNitinKumar'
-
-    let senderId = await db.query(`SELECT _id FROM users WHERE username=\'${req.body.loggedin}\'`);
-    // console.log("line 219", senderId)
-    senderId = await senderId.rows[0]._id;
-
-    // console.log("line 219", senderId)
-    let receiverId = await db.query(
-      `SELECT _id FROM users WHERE username=\'${req.body.requested}\'`,
-    );
-    receiverId = await receiverId.rows[0]._id;
-
-    // console.log("senderId", senderId)
-    // console.log("receiverId", receiverId)
-    const message = req.body.message;
+    const user = req.body.loggedin;
+    const requested = req.body.requested;
 
     const sql = 'INSERT INTO invitations VALUES(DEFAULT, $1, $2, $3)';
-    const queryArr = [message, senderId, receiverId];
+    const queryArr = ['Lets work together!', user, requested];
     db.query(sql, queryArr);
     return next();
   } catch (err) {
