@@ -4,7 +4,7 @@ const { resolve } = require('path');
 const path = require('path');
 const { useParams } = require('react-router');
 
-const fetch = require("node-fetch")
+const fetch = require('node-fetch');
 
 const db = require('../models/dbmodels');
 
@@ -12,32 +12,33 @@ const apiController = {};
 
 // OAuth log in
 apiController.login = async (req, res, next) => {
-//   console.log("params", req.params.token);
-  
+  //   console.log("params", req.params.token);
+
   try {
     const token = req.params.token;
-    console.log("token",token)
+    console.log('token', token);
 
-    const tokenVar = `token ${token}`
-    console.log("hi", tokenVar)
+    const tokenVar = `token ${token}`;
+    console.log('hi', tokenVar);
     // const options = {
     //   method: "GET",
     //   headers: {"Authorization": `token${token}`}
     // }
-  
-    let data = await fetch(`https://api.github.com/user`, {method: 'GET', headers: {Authorization: tokenVar}});
 
-    data = await data.json()
+    let data = await fetch(`https://api.github.com/user`, {
+      method: 'GET',
+      headers: { Authorization: tokenVar },
+    });
 
+    data = await data.json();
 
-    console.log(data)
+    console.log(data);
 
-    let username = data
+    let username = data;
 
     // post to users table in db
-    return next()
-
-  } catch(err) {
+    return next();
+  } catch (err) {
     console.log(err);
     return next(err);
   }
