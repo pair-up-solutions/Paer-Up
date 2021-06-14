@@ -56,6 +56,9 @@ app.get('/', (req, res) => {
   return res.status(200).sendFile(path.resolve(__dirname, '../client/index.html'));
 });
 
+app.get('/dashboard', (req, res) => {
+  return res.status(200).sendFile(path.resolve(__dirname, '../client/index.html'));
+});
 // catch-all route handler for any requests to an unknown route
 
 app.use((req, res) => res.sendStatus(404));

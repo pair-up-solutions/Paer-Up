@@ -7,6 +7,7 @@ const { useParams } = require('react-router');
 const fetch = require('node-fetch');
 
 const db = require('../models/dbmodels');
+const { Console } = require('console');
 
 const apiController = {};
 
@@ -25,7 +26,7 @@ apiController.login = async (req, res, next) => {
     //   headers: {"Authorization": `token${token}`}
     // }
 
-    let data = await fetch('https://api.github.com/user', {
+    let data = await fetch(`https://api.github.com/user`, {
       method: 'GET',
       headers: { Authorization: tokenVar },
     });
@@ -34,9 +35,11 @@ apiController.login = async (req, res, next) => {
 
     // console.log(data)
 
-    const username = data.login;
+    let username = data.login;
 
-    const val = db.query(`SELECT users.username FROM users WHERE users.username = '${username}'`);
+    const val = await db.query(
+      `SELECT users.username FROM users WHERE users.username = \'${username}\'`,
+    );
 
     if (!val.rows.length) {
       const sqlQuery = 'INSERT INTO users VALUES(DEFAULT, $1, $2)';
@@ -49,7 +52,7 @@ apiController.login = async (req, res, next) => {
     // data.repos_url
     const realRepo = [];
     for (let i = 0; i < repo.length; i++) {
-      const innerObj = {};
+      let innerObj = {};
       innerObj.name = repo[i].name;
       innerObj.description = repo[i].description;
       innerObj.url = repo[i].html_url;
@@ -67,7 +70,7 @@ apiController.login = async (req, res, next) => {
       bio: data.bio,
       arrOfRepo: realRepo,
       followers: followerCount,
-      token,
+      token: token,
     };
 
     // const response = await db.query('SELECT token FROM users')
@@ -87,7 +90,61 @@ apiController.login = async (req, res, next) => {
 };
 
 // single user data
-apiController.reqUserData = (req, res, next) => {};
+apiController.reqUserData = async (req, res, next) => {
+  try {
+    const token = req.params.token;
+    // console.log("token",token)
+
+    const tokenVar = `token ${token}`;
+    // console.log("hi", tokenVar)
+    // const options = {
+    //   method: "GET",
+    //   headers: {"Authorization": `token${token}`}
+    // }
+
+    let data = await fetch(`https://api.github.com/user`, {
+      method: 'GET',
+      headers: { Authorization: tokenVar },
+    });
+
+    data = await data.json();
+
+    let username = data.login;
+
+    // fetch request to grab repos
+    let repo = await fetch(data.repos_url);
+    repo = await repo.json();
+    // data.repos_url
+    const realRepo = [];
+    for (let i = 0; i < repo.length; i++) {
+      let innerObj = {};
+      innerObj.name = repo[i].name;
+      innerObj.description = repo[i].description;
+      innerObj.url = repo[i].html_url;
+      realRepo.push(innerObj);
+    }
+
+    let followers = await fetch(data.followers_url);
+    followers = await followers.json();
+
+    let followerCount = followers.length;
+
+    res.locals.userData = {
+      profilePicURL: data.avatar_url,
+      username: data.login,
+      bio: data.bio,
+      arrOfRepo: realRepo,
+      followers: followerCount,
+      token: token,
+    };
+
+    // post to users table in db
+    return next();
+  } catch (err) {
+    console.log(err);
+    return next(err);
+  }
+};
 
 // all users data
 apiController.reqAllUsersData = async (req, res, next) => {
@@ -99,7 +156,7 @@ apiController.reqAllUsersData = async (req, res, next) => {
 
   try {
     // grab all data from db - store in arr
-    const response = db.query('SELECT token FROM users');
+    const response = await db.query('SELECT token FROM users');
     const tokenArr = [];
     response.rows.forEach((el) => {
       tokenArr.push(el.token);
@@ -110,7 +167,7 @@ apiController.reqAllUsersData = async (req, res, next) => {
     // iterate through tokenarr - make call
     for (let el = 0; el < tokenArr.length; el++) {
       const tokenVar = `token ${tokenArr[el]}`;
-      let data = await fetch('https://api.github.com/user', {
+      let data = await fetch(`https://api.github.com/user`, {
         method: 'GET',
         headers: { Authorization: tokenVar },
       });
@@ -123,7 +180,7 @@ apiController.reqAllUsersData = async (req, res, next) => {
       // data.repos_url
       const realRepo = [];
       for (let i = 0; i < repo.length; i++) {
-        const innerObj = {};
+        let innerObj = {};
         innerObj.name = repo[i].name;
         innerObj.description = repo[i].description;
         innerObj.url = repo[i].html_url;
@@ -145,7 +202,7 @@ apiController.reqAllUsersData = async (req, res, next) => {
         token: tokenArr[el],
       };
       // console.log("userObj", userObj)
-      resultArr.push(userObj);
+      await resultArr.push(userObj);
       // console.log("145", resultArr);
     }
     // console.log("line 147", resultArr);
@@ -159,17 +216,30 @@ apiController.reqAllUsersData = async (req, res, next) => {
 };
 
 // sending invitation
-apiController.inviteUser = (req, res, next) => {
+apiController.inviteUser = async (req, res, next) => {
   try {
-    // req.params= {logedin: , requested: }
-    console.log('req.params =>', req.params);
-    console.log('req.body =>', req.body);
+    // console.log("req.body =>", req.params)
+    // console.log("req.body =>", req.body)
 
-    const user = req.body.loggedin;
-    const { requested } = req.body;
+    //query db - macth id for send and reciver
+    // SELECT token FROM users WHERE username = 'realNitinKumar'
+
+    let senderId = await db.query(`SELECT _id FROM users WHERE username=\'${req.body.loggedin}\'`);
+    // console.log("line 219", senderId)
+    senderId = await senderId.rows[0]._id;
+
+    // console.log("line 219", senderId)
+    let receiverId = await db.query(
+      `SELECT _id FROM users WHERE username=\'${req.body.requested}\'`,
+    );
+    receiverId = await receiverId.rows[0]._id;
+
+    // console.log("senderId", senderId)
+    // console.log("receiverId", receiverId)
+    const message = req.body.message;
 
     const sql = 'INSERT INTO invitations VALUES(DEFAULT, $1, $2, $3)';
-    const queryArr = ['Lets work together!', user, requested];
+    const queryArr = [message, senderId, receiverId];
     db.query(sql, queryArr);
     return next();
   } catch (err) {
