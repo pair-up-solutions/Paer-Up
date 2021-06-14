@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Route, Switch, Link } from 'react-router-dom';
 import MessageCard from './MessageCard';
-
 const MessageContainer = (props) => {
   // make a GET request call to the db for all messages to logged in user
   const [messageArr, setMessageArr] = useState([]);
@@ -19,5 +18,4 @@ const MessageContainer = (props) => {
 
   return <div>{messages}</div>;
 };
-
 export default MessageContainer;

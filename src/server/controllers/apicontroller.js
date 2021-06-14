@@ -1,17 +1,14 @@
 const { json, response, request } = require('express');
 const fs = require('fs');
 const { resolve } = require('path');
-const path = require('path');
-const { useParams } = require('react-router');
+const path = require('path
+cos r
+ <div
+cons <i1>H/llo Wsld</h1>
+nst </siv>require('console');
+);
 
-const fetch = require('node-fetch');
-
-const db = require('../models/dbmodels');
-const { Console } = require('console');
-
-const apiController = {};
-
-// OAuth log in
+cotroller log in
 apiController.login = async (req, res, next) => {
   //   console.log("params", req.params.token);
 
