@@ -43,16 +43,35 @@ const ProfileContainer = (props) => {
   // this will be from user input in a input[]
 
   console.log('props', props);
-  const userData = props.allUsersData.filter((x) => x.username === props.renderedPageUserName);
-  console.log('userdata', userData);
+  // const userData = props.allUsersData.filter((x) => x.username === props.renderedPageUserName);
 
   return (
     <div>
-      <AccountDescriptionCard userData={userData} />
-      <PreviousProjectCard userData={userData} />
-      <ProgrammingLanguageCard userData={userData} />
+      <AccountDescriptionCard
+        name="JefZheng"
+        description="I like to code"
+        profilePicUrl="https://avatars.githubusercontent.com/u/39392074?v=4"
+      />
+      <h1>Previous Projects</h1>
+      <PreviousProjectCard
+        arrOfRepos={[{ url: 'https://github.com/JefZheng/JobTable' }]}
+        name="JefZheng/SnakeGame"
+      />
+      <PreviousProjectCard
+        arrOfRepos={[{ url: 'https://github.com/JefZheng/JobTable' }]}
+        name="JefZheng/Hackathon"
+      />
+      <PreviousProjectCard
+        arrOfRepos={[{ url: 'https://github.com/JefZheng/JobTable' }]}
+        name="JefZheng/JobTable"
+      />
+      <PreviousProjectCard
+        arrOfRepos={[{ url: 'https://github.com/JefZheng/JobTable' }]}
+        name="JefZheng/PaerUp"
+      />
     </div>
   );
+  // <ProgrammingLanguageCard />
 };
 
 export default ProfileContainer;

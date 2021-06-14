@@ -27,24 +27,65 @@ const Dashboard = () => {
     fetch('/api/connect')
       .then((data) => data.json())
       .then((items) => {
-        setAllUsersData((allUsersData) => ({ ...allUsersData, items }));
         console.log('connect', items);
+        setAllUsersData(items);
       })
       .catch((err) => console.log(err));
   }, []);
 
-  useEffect(() => {});
-  console.log('currentUserName', currentUserName);
+  // useEffect(() => {});
+  // console.log('currentUserName', currentUserName);
+
   return (
     <div>
-      <Sidebar currentUser={currentUserName} resetUser={setRenderedPageUserName} />
+      <Sidebar
+        renderedPageUserName={renderedPageUserName}
+        setRenderedPageUserName={setRenderedPageUserName}
+        currentUser={currentUserName}
+        resetUser={setRenderedPageUserName}
+        allUsersData={allUsersData}
+        setAllUsersData={setAllUsersData}
+      />
       <div className="container">
         <Switch>
-          <Route path="/dashboard/messages" render={(props) => <MessageContainer {...props} />} />
-          <Route path="/dashboard/connect" render={(props) => <ConnectionContainer {...props} />} />
+          <Route
+            path="/dashboard/messages"
+            render={() => (
+              <MessageContainer
+                renderedPageUserName={renderedPageUserName}
+                setRenderedPageUserName={setRenderedPageUserName}
+                currentUser={currentUserName}
+                resetUser={setRenderedPageUserName}
+                allUsersData={allUsersData}
+                setAllUsersData={setAllUsersData}
+              />
+            )}
+          />
+          <Route
+            path="/dashboard/connect"
+            render={() => (
+              <ConnectionContainer
+                renderedPageUserName={renderedPageUserName}
+                setRenderedPageUserName={setRenderedPageUserName}
+                currentUser={currentUserName}
+                resetUser={setRenderedPageUserName}
+                allUsersData={allUsersData}
+                setAllUsersData={setAllUsersData}
+              />
+            )}
+          />
           <Route
             path="/dashboard/userprofile"
-            render={(props) => <ProfileContainer {...props} />}
+            render={() => (
+              <ProfileContainer
+                renderedPageUserName={renderedPageUserName}
+                setRenderedPageUserName={setRenderedPageUserName}
+                currentUser={currentUserName}
+                resetUser={setRenderedPageUserName}
+                allUsersData={allUsersData}
+                setAllUsersData={setAllUsersData}
+              />
+            )}
           />
         </Switch>
       </div>

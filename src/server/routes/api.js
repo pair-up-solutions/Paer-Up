@@ -17,7 +17,7 @@ router.get('/user/:token', apiController.login, (req, res) => {
   // res.cookie("token", res.locals.userData.token)
   res.cookie('username', res.locals.userData.username);
   res.cookie('token', res.locals.userData.token);
-  res.redirect('/dashboard');
+  res.redirect('/dashboard/userprofile');
 });
 
 router.get('/userprofile/:token', apiController.reqUserData, (req, res) => {

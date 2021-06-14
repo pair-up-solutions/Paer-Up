@@ -26,10 +26,10 @@ const Container = (props) => {
     <div>
       <div className="card" style={{ width: '18rem' }}>
         <div className="card-body">
-          <h5 className="card-title">{props.username}</h5>
-          <p className="card-text">{props.userbio}</p>
+          <h5 className="card-title">{props.currentUser}</h5>
+          <p className="card-text">{props.userBio}</p>
           <button
-            className="btn btn-primary"
+            className="btn btn-success"
             onClick={() => {
               paerUp();
             }}
@@ -39,7 +39,7 @@ const Container = (props) => {
           <Link to="/userprofile">
             <button
               onClick={() => props.setRenderedPageUserName(props.username)}
-              className="btn btn-info"
+              className="btn btn-warning"
             >
               Show Profile
             </button>

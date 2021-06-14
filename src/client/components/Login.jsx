@@ -17,7 +17,7 @@ const Login = () => {
             <h5 className="card-title">Login/Signup With GitHub</h5>
             <p className="card-text">Login to find a paer programming partner at your level!</p>
             <Link to="/api/auth">
-              <button className="btn btn-primary">Github Login</button>
+              <button className="btn btn-success">Github Login</button>
             </Link>
           </div>
         </div>
