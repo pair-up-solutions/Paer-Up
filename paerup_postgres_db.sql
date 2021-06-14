@@ -10,15 +10,20 @@ SET row_security = off;
 
 CREATE TABLE users (
     "_id" SERIAL PRIMARY KEY,
-    "token" TEXT
+    "token" TEXT,
+    "username" TEXT
 );
 
 CREATE TABLE invitations (
-  "_id" SERIAL PRIMARY KEY,
-  message TEXT,
-  CONSTRAINT "senderID" FOREIGN KEY("_id") REFERENCES users("_id"),
-  CONSTRAINT "recipientID" FOREIGN KEY("_id") REFERENCES users("_id")  
+"_id" SERIAL PRIMARY KEY,
+"message " TEXT,
+"sendID" BIGINT,
+"recipientID" BIGINT
 );
  
+
+
+-- CONSTRAINT "senderID" FOREIGN KEY("_id") REFERENCES users("_id"),
+--   CONSTRAINT "recipientID" FOREIGN KEY("_id") REFERENCES users("_id")  
 
 --  psql -d postgres://qhakhewk:dHQiXjL0mSx2K74cWmbhbq5MEDyq8iCU@batyr.db.elephantsql.com/qhakhewk -f paerup_postgres_db.sql
