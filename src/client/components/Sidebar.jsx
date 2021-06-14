@@ -16,7 +16,7 @@ const SideBar = (props) => {
             My Profile
           </button>
         </Link>
-        <Link to="/dashboard/onnect">
+        <Link to="/dashboard/connect">
           <button
             className="btn btn-primary btn-lg btn-block"
             style={{ backgroundColor: '#398d63' }}
