@@ -10,15 +10,17 @@ const router = express.Router();
 
 // request user data
 
-router.get('/user/:token', apiController.login, (req, res) =>
-  res.status(200).json(res.locals.userData),
-);
+router.get('/user/:token', apiController.login, (req, res) => {
+  // console.log("line 14 on api.js",res.locals.userData)
+  res.status(200).json(res.locals.userData)
+});
 
-router.get('/connect', apiController.reqAllUsersData, (req, res) =>
-  res.status(200).json(res.locals.allUsersData),
-);
+router.get('/connect', apiController.reqAllUsersData, (req, res) => {
+  console.log("line 19 on api.js", res.locals.allUsers);
+  res.status(200).json(res.locals.allUsers);
+});
 
-router.get('/invitations', apiController.inviteUser, (req, res) =>
+router.post('/invitations/:username&requested', apiController.inviteUser, (req, res) =>
   res.status(200).json(res.locals.invitation),
 );
 
