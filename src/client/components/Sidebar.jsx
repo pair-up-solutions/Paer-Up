@@ -7,7 +7,7 @@ const SideBar = (props) => {
     <nav>
       <Logo />
       <div className="sidebar">
-        <Link to="/userprofile">
+        <Link to="/dashboard/userprofile">
           <button
             className="btn btn-primary btn-lg btn-block"
             style={{ backgroundColor: '#f0e370' }}
@@ -16,7 +16,7 @@ const SideBar = (props) => {
             My Profile
           </button>
         </Link>
-        <Link to="/connect">
+        <Link to="/dashboard/onnect">
           <button
             className="btn btn-primary btn-lg btn-block"
             style={{ backgroundColor: '#398d63' }}
@@ -24,7 +24,7 @@ const SideBar = (props) => {
             Paer Up
           </button>
         </Link>
-        <Link to="/messages">
+        <Link to="/dashboard/messages">
           <button
             className="btn btn-primary btn-lg btn-block"
             style={{ backgroundColor: '#398d63' }}

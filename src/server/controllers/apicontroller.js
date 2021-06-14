@@ -15,7 +15,7 @@ apiController.login = async (req, res, next) => {
   //   console.log("params", req.params.token);
 
   try {
-    const token = req.params.token;
+    const { token } = req.params;
     // console.log("token",token)
 
     const tokenVar = `token ${token}`;
@@ -25,12 +25,7 @@ apiController.login = async (req, res, next) => {
     //   headers: {"Authorization": `token${token}`}
     // }
 
-    let data = await fetch(`https://api.github.com/user`, {
-      method: 'GET',
-      headers: { Authorization: tokenVar },
-    });
-
-    let data = await fetch(`https://api.github.com/user`, {
+    let data = await fetch('https://api.github.com/user', {
       method: 'GET',
       headers: { Authorization: tokenVar },
     });
@@ -39,11 +34,9 @@ apiController.login = async (req, res, next) => {
 
     // console.log(data)
 
-    let username = data.login;
+    const username = data.login;
 
-    const val = await db.query(
-      `SELECT users.username FROM users WHERE users.username = \'${username}\'`,
-    );
+    const val = db.query(`SELECT users.username FROM users WHERE users.username = '${username}'`);
 
     if (!val.rows.length) {
       const sqlQuery = 'INSERT INTO users VALUES(DEFAULT, $1, $2)';
@@ -56,7 +49,7 @@ apiController.login = async (req, res, next) => {
     // data.repos_url
     const realRepo = [];
     for (let i = 0; i < repo.length; i++) {
-      let innerObj = {};
+      const innerObj = {};
       innerObj.name = repo[i].name;
       innerObj.description = repo[i].description;
       innerObj.url = repo[i].html_url;
@@ -66,7 +59,7 @@ apiController.login = async (req, res, next) => {
     let followers = await fetch(data.followers_url);
     followers = await followers.json();
 
-    let followerCount = followers.length;
+    const followerCount = followers.length;
 
     res.locals.userData = {
       profilePicURL: data.avatar_url,
@@ -74,7 +67,7 @@ apiController.login = async (req, res, next) => {
       bio: data.bio,
       arrOfRepo: realRepo,
       followers: followerCount,
-      token: token,
+      token,
     };
 
     // const response = await db.query('SELECT token FROM users')
@@ -106,7 +99,7 @@ apiController.reqAllUsersData = async (req, res, next) => {
 
   try {
     // grab all data from db - store in arr
-    const response = await db.query('SELECT token FROM users');
+    const response = db.query('SELECT token FROM users');
     const tokenArr = [];
     response.rows.forEach((el) => {
       tokenArr.push(el.token);
@@ -117,7 +110,7 @@ apiController.reqAllUsersData = async (req, res, next) => {
     // iterate through tokenarr - make call
     for (let el = 0; el < tokenArr.length; el++) {
       const tokenVar = `token ${tokenArr[el]}`;
-      let data = await fetch(`https://api.github.com/user`, {
+      let data = await fetch('https://api.github.com/user', {
         method: 'GET',
         headers: { Authorization: tokenVar },
       });
@@ -130,20 +123,20 @@ apiController.reqAllUsersData = async (req, res, next) => {
       // data.repos_url
       const realRepo = [];
       for (let i = 0; i < repo.length; i++) {
-        let innerObj = {};
+        const innerObj = {};
         innerObj.name = repo[i].name;
         innerObj.description = repo[i].description;
         innerObj.url = repo[i].html_url;
-        await realRepo.push(innerObj);
+        realRepo.push(innerObj);
       }
       // console.log("realRepo", realRepo)
 
       let followers = await fetch(data.followers_url);
       followers = await followers.json();
 
-      let followerCount = followers.length;
+      const followerCount = followers.length;
       // console.log("FC", followerCount)
-      let userObj = {
+      const userObj = {
         profilePicURL: data.avatar_url,
         username: data.login,
         bio: data.bio,
@@ -152,7 +145,7 @@ apiController.reqAllUsersData = async (req, res, next) => {
         token: tokenArr[el],
       };
       // console.log("userObj", userObj)
-      await resultArr.push(userObj);
+      resultArr.push(userObj);
       // console.log("145", resultArr);
     }
     // console.log("line 147", resultArr);
@@ -170,10 +163,10 @@ apiController.inviteUser = (req, res, next) => {
   try {
     // req.params= {logedin: , requested: }
     console.log('req.params =>', req.params);
-    onsole.log('req.body =>', req.body);
+    console.log('req.body =>', req.body);
 
     const user = req.body.loggedin;
-    const requested = req.body.requested;
+    const { requested } = req.body;
 
     const sql = 'INSERT INTO invitations VALUES(DEFAULT, $1, $2, $3)';
     const queryArr = ['Lets work together!', user, requested];

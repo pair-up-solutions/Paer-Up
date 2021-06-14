@@ -1,6 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useState, useEffect } from 'react';
 import { Route, Switch, Link } from 'react-router-dom';
+
 import Sidebar from './Sidebar';
 import Logo from './Logo';
 import ProfileContainer from './Profile/ProfileContainer';
@@ -13,18 +14,21 @@ const Dashboard = () => {
   const [renderedPageUserName, setRenderedPageUserName] = useState(null); // the username of the page we wanna see
 
   useEffect(() => {
-    fetch('/api/user')
+    console.log(document.cookie);
+    // console.log(document.cookie.replace(/(?:(?:^|.*;\s*)token\s*\=\s*([^;]*).*$)|^.*$/, '$1'));
+    fetch('/api/userprofile/')
       .then((data) => data.json())
       .then((items) => {
         setCurrentUserName(items.username);
         setRenderedPageUserName(items.username);
+        console.log('one user', items);
       })
       .catch((err) => console.error(err));
 
     fetch('/api/connect')
       .then((data) => data.json())
       .then((items) => setAllUsersData(items))
-      .then((items) => console.log(items))
+      .then((items) => console.log('connect', items))
       .catch((err) => console.log(err));
   }, []);
 

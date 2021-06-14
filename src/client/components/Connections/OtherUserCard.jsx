@@ -3,7 +3,11 @@ import { Route, Switch, Link } from 'react-router-dom';
 
 const Container = (props) => {
   function paerUp() {
-    const toSend = { loggedIn: props.currentUser, requested: props.userName };
+    const toSend = {
+      loggedIn: props.currentUser,
+      requested: props.userName,
+      message: `${props.currentUser} has requested to paer up`,
+    };
     fetch('/api/invitations', {
       method: 'POST',
       headers: {
@@ -30,23 +34,24 @@ const Container = (props) => {
               paerUp();
             }}
           >
-            {' '}
             Paer Up
           </button>
-          <button
-            onClick={() => props.setRenderedPageUserName(props.username)}
-            className="btn btn-info"
-          >
-            Show Profile
-          </button>
+          <Link to="/userprofile">
+            <button
+              onClick={() => props.setRenderedPageUserName(props.username)}
+              className="btn btn-info"
+            >
+              Show Profile
+            </button>
+          </Link>
         </div>
       </div>
     </div>
   );
 };
 
-//Show Profile should link to their page (set renderedUserPage to their username)
+// Show Profile should link to their page (set renderedUserPage to their username)
 
-//Paer Up should send them an invite
+// Paer Up should send them an invite
 
 export default Container;

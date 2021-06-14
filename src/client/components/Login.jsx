@@ -3,7 +3,7 @@ import { Route, Switch, Link } from 'react-router-dom';
 import githubLogo from '../assets/GitHub-Mark-Light-120px-plus.png';
 import logoImg from '../assets/logoImg.png';
 
-const Login = () => {
+const Login = async () => {
   return (
     <div className="container">
       <div

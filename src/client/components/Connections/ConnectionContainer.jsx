@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Route, Switch, Link } from 'react-router-dom';
-import { ProgressPlugin } from 'webpack';
 import OtherUserCard from './OtherUserCard';
 import UserModal from './UserModal';
 
@@ -16,7 +15,7 @@ const ConnectionContainer = (props) => {
     );
   });
 
-  return <div>{cards}</div>;
+  return <div>{cards}CARDS</div>;
 };
 
 export default ConnectionContainer;
