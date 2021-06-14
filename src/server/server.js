@@ -52,6 +52,7 @@ app.use('/user', userRouter);
 
 // route handler to respond with main app
 app.use(express.static(path.join(__dirname, '../../dist')));
+
 app.get('/', (req, res) => {
   return res.status(200).sendFile(path.resolve(__dirname, '../client/index.html'));
 });

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Route, Switch, Link } from 'react-router-dom';
 import Logo from './Logo';
 
-const SideBar = () => {
+const SideBar = (props) => {
   return (
     <nav>
       <Logo />
@@ -11,6 +11,7 @@ const SideBar = () => {
           <button
             className="btn btn-primary btn-lg btn-block"
             style={{ backgroundColor: '#f0e370' }}
+            onClick={() => props.resetUser(props.currentUser)}
           >
             My Profile
           </button>

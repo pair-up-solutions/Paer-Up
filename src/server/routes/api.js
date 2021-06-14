@@ -11,7 +11,7 @@ const router = express.Router();
 // request user data
 
 router.get('/user/:token', apiController.login, (req, res) =>
-  res.status(200).json(res.locals.userData),
+  res.status(200).json(res.locals.userData).redirect('/dashboard'),
 );
 
 router.get('/connect', apiController.reqAllUsersData, (req, res) =>
