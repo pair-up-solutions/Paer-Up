@@ -7,7 +7,7 @@ import Login from './Login';
 
 const App = () => {
   return (
-    <div className="container-fluid">
+    <div>
       <Switch>
         <Route exact path="/" component={Login} />
         <Route path="/dashboard" render={(props) => <Dashboard {...props} />} />

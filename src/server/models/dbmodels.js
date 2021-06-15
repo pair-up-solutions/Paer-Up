@@ -13,3 +13,4 @@ const pool = new Pool({
       return pool.query(text, params, callback);
     },
   };
+

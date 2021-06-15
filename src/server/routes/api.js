@@ -1,7 +1,7 @@
 const { response, request } = require('express');
 const express = require('express');
-
-const apiController = require('../controllers/apicontroller')
+const path = require('path');
+const apiController = require('../controllers/apicontroller');
 
 const router = express.Router();
 
@@ -10,19 +10,28 @@ const router = express.Router();
 
 // request user data
 
-router.get('/user/:token',
-  apiController.reqUserData,
-  (req, res) => res.status(200).json(res.locals.userData)
-);
+router.get('/user/:token', apiController.login, (req, res) => {
+  // console.log("line 14 on api.js",res.locals.userData)
+  // res.status(200).json(res.locals.userData);
+  // res.redirect(path.resolve(__dirname,'./dashboard'));
+  // res.cookie("token", res.locals.userData.token)
+  res.cookie('username', res.locals.userData.username);
+  res.cookie('token', res.locals.userData.token);
+  res.redirect('/dashboard/userprofile');
+});
 
-router.get('/connect',
-  apiController.reqAllUsersData,
-  (req, res) => res.status(200).json(res.locals.allUsersData)
-);
+router.get('/userprofile/:token', apiController.reqUserData, (req, res) => {
+  console.log('line 21 =>', res.locals.userData);
+  res.status(200).json(res.locals.userData);
+});
 
-router.get('/invitations',
-  apiController.inviteUser,
-  (req, res) => res.status(200).json(res.locals.invitation)
+router.get('/connect', apiController.reqAllUsersData, (req, res) => {
+  console.log('line 19 on api.js', res.locals.allUsers);
+  res.status(200).json(res.locals.allUsers);
+});
+
+router.post('/invitations', apiController.inviteUser, (req, res) =>
+  res.status(200).json(res.locals.invitation),
 );
 
 module.exports = router;
